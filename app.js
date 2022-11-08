@@ -20,6 +20,7 @@ const client = new MongoClient(uri, {
 const run = async function () {
   try {
     const servicesCollection = client.db("servicesDB").collection("services");
+    const reviewsCollection = client.db("servicesDB").collection("reviews");
     // Testing
     app.get("/", (req, res) => res.send("Hello from the server 👋"));
 
@@ -46,6 +47,13 @@ const run = async function () {
 
       const service = await servicesCollection.findOne(query);
       res.send(service);
+    });
+
+    // Create a review
+    app.post("/review", async (req, res) => {
+      const doc = req.body;
+      const result = await reviewsCollection.insertOne(doc);
+      res.send(result);
     });
   } finally {
     // NOTHING TO DO AT LEAST IN THIS PROJECT
