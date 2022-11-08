@@ -49,7 +49,22 @@ const run = async function () {
       res.send(service);
     });
 
-    // Create a review
+    // get a review
+
+    app.get("/review", async (req, res) => {
+      let query = null;
+
+      if (req.query.email) {
+        query = { email: req.query.email };
+      } else if (req.query.serviceName) {
+        query = { serviceName: req.query.serviceName };
+      } else query = {};
+      const cursor = reviewsCollection.find(query);
+      const review = await cursor.toArray();
+      res.send(review);
+    });
+
+    // create a review
     app.post("/review", async (req, res) => {
       const doc = req.body;
       const result = await reviewsCollection.insertOne(doc);
