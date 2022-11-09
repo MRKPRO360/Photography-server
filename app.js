@@ -49,7 +49,7 @@ const run = async function () {
       res.send(service);
     });
 
-    // get a review
+    // get all review or certain review by query
 
     app.get("/review", async (req, res) => {
       let query = null;
@@ -61,6 +61,14 @@ const run = async function () {
       } else query = {};
       const cursor = reviewsCollection.find(query);
       const review = await cursor.toArray();
+      res.send(review);
+    });
+
+    app.get("/review/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+
+      const review = await reviewsCollection.findOne(query);
       res.send(review);
     });
 
