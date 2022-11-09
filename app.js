@@ -79,6 +79,25 @@ const run = async function () {
       res.send(result);
     });
 
+    // update a review
+    app.patch("/review/:id", async (req, res) => {
+      const id = req.params.id;
+      const filter = { _id: ObjectId(id) };
+
+      const updateDoc = {
+        $set: {
+          description: req.body.description,
+          createdAt: req.body.createdAt,
+          rating: req.body.rating,
+          updatedAt: req.body.updatedAt,
+        },
+      };
+
+      const result = await reviewsCollection.updateOne(filter, updateDoc);
+      res.send(result);
+    });
+
+    // delete a review
     app.delete("/review/:id", async (req, res) => {
       const id = req.params.id;
       const filter = { _id: ObjectId(id) };
