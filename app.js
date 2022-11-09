@@ -70,6 +70,14 @@ const run = async function () {
       const result = await reviewsCollection.insertOne(doc);
       res.send(result);
     });
+
+    app.delete("/review/:id", async (req, res) => {
+      const id = req.params.id;
+      const filter = { _id: ObjectId(id) };
+
+      const result = await reviewsCollection.deleteOne(filter);
+      res.send(result);
+    });
   } finally {
     // NOTHING TO DO AT LEAST IN THIS PROJECT
   }
